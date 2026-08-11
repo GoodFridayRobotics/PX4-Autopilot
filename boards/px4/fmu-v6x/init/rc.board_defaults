@@ -12,4 +12,26 @@ param set-default MAV_2_RATE 100000
 param set-default MAV_2_REMOTE_PRT 14550
 param set-default MAV_2_UDP_PRT 14550
 
+# ARK Flow (DroneCAN optical flow + rangefinder), GPS-denied positioning
+param set-default UAVCAN_ENABLE 2
+param set-default UAVCAN_SUB_FLOW 1
+param set-default UAVCAN_SUB_RNG 1
+param set-default UAVCAN_RNG_MIN 0.08
+param set-default UAVCAN_RNG_MAX 30
+
+param set-default EKF2_OF_CTRL 1
+param set-default EKF2_GPS_CTRL 0
+param set-default EKF2_HGT_REF 2
+param set-default EKF2_RNG_CTRL 1
+param set-default EKF2_RNG_A_HMAX 10
+param set-default EKF2_RNG_QLTY_T 0.2
+
+# PAW3902 optical flow sensor limits
+param set-default SENS_FLOW_MINHGT 0.08
+param set-default SENS_FLOW_MAXHGT 25
+param set-default SENS_FLOW_MAXR 7.4
+
+# Reduce position-error gain when flow is the only horizontal position source
+param set-default MPC_XY_P 0.5
+
 safety_button start
