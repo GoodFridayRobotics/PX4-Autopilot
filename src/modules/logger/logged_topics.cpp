@@ -227,7 +227,7 @@ void LoggedTopics::add_default_topics()
 	add_topic_multi("sensor_gnss_relative", 1000, 1);
 	add_optional_topic_multi("sensor_gyro", 1000, 4);
 	add_topic_multi("sensor_mag", 1000, 4);
-	add_topic_multi("sensor_optical_flow", 1000, 2);
+	add_topic_multi("sensor_optical_flow", 1000, 3);
 
 	add_topic_multi("vehicle_imu", 500, 4);
 	add_topic_multi("vehicle_imu_status", 1000, 4);
@@ -397,7 +397,7 @@ void LoggedTopics::add_high_rate_sensors_topics()
 {
 	add_topic_multi("distance_sensor", 10, 4);
 	add_topic_multi("sensor_baro", 10, 4);
-	add_topic_multi("sensor_optical_flow", 10, 2);
+	add_topic_multi("sensor_optical_flow", 10, 3);
 	add_topic_multi("sensor_gps", 10, 4);
 	add_topic_multi("sensor_gnss_relative", 10, 1);
 	add_topic_multi("sensor_mag", 10, 4);
