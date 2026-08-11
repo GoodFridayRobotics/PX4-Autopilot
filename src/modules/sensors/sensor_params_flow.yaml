@@ -63,6 +63,21 @@ parameters:
         6: "Yaw 270\xB0"
         7: "Yaw 315\xB0"
       default: 0
+    SENS_FLOW_DEVID:
+      description:
+        short: Optical flow device ID
+        long: |-
+          Device ID of the optical flow sensor to fuse. Only one optical flow sensor can be
+          used by the estimator, and it has to be the one facing down.
+
+          With several sensors present the instance numbering depends on the order in which
+          they start publishing, so the downward facing sensor is not reliably instance 0.
+          Set this to the device ID of the downward facing sensor, which can be read from the
+          sensor_optical_flow topic, to pin the selection. Leaving it at 0 selects the first
+          instance, which is only correct with a single sensor.
+      type: int32
+      default: 0
+      reboot_required: true
     SENS_FLOW_RATE:
       description:
         short: Optical flow max rate

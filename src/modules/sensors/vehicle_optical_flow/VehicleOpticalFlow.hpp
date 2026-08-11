@@ -80,6 +80,7 @@ protected:
 private:
 	void ClearAccumulatedData();
 	void UpdateSensorGyro();
+	void SelectFlowSensor();
 
 	void Run() override;
 
@@ -123,6 +124,7 @@ private:
 	hrt_abstime _last_range_sensor_update{0};
 
 	bool _delta_angle_available{false};
+	bool _flow_sensor_selected{false};
 
 	struct gyroSample {
 		uint64_t time_us{}; ///< timestamp of the measurement (uSec)
@@ -140,6 +142,7 @@ private:
 
 	DEFINE_PARAMETERS(
 		(ParamInt<px4::params::SENS_FLOW_ROT>) _param_sens_flow_rot,
+		(ParamInt<px4::params::SENS_FLOW_DEVID>) _param_sens_flow_devid,
 		(ParamFloat<px4::params::SENS_FLOW_MINHGT>) _param_sens_flow_minhgt,
 		(ParamFloat<px4::params::SENS_FLOW_MAXHGT>) _param_sens_flow_maxhgt,
 		(ParamFloat<px4::params::SENS_FLOW_MAXR>) _param_sens_flow_maxr,

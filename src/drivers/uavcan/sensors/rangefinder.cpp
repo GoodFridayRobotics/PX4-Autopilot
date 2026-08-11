@@ -54,6 +54,7 @@ int UavcanRangefinderBridge::init()
 	// Initialize min/max range from params
 	param_get(param_find("UAVCAN_RNG_MIN"), &_range_min_m);
 	param_get(param_find("UAVCAN_RNG_MAX"), &_range_max_m);
+	param_get(param_find("UAVCAN_RNG_DNID"), &_downward_node_id);
 
 	int res = _sub_range_data.start(RangeCbBinder(this, &UavcanRangefinderBridge::range_sub_cb));
 
@@ -108,6 +109,12 @@ void UavcanRangefinderBridge::range_sub_cb(const
 		rangefinder->set_fov(msg.field_of_view);
 		rangefinder->set_min_distance(_range_min_m);
 		rangefinder->set_max_distance(_range_max_m);
+
+		// Consumers of distance_sensor pick the first downward facing instance as their height
+		// above ground source, so only the node the user nominated may claim that orientation.
+		if ((_downward_node_id != 0) && (msg.getSrcNodeID().get() != _downward_node_id)) {
+			rangefinder->set_orientation(distance_sensor_s::ROTATION_CUSTOM);
+		}
 
 		_channel_initialized[channel_idx] = true;
 	}

@@ -62,6 +62,23 @@ parameters:
       type: float
       default: 999.0
       unit: m
+    UAVCAN_RNG_DNID:
+      description:
+        short: UAVCAN downward facing rangefinder node ID
+        long: |-
+          Node ID of the rangefinder that faces down. Only this node is published with a
+          downward facing orientation, which is what the height estimator and the optical
+          flow module look for when picking a height above ground source. Every other
+          rangefinder on the bus is published with a custom orientation so that it cannot
+          be mistaken for a height source.
+
+          Set this when more than one rangefinder is on the bus, for example when several
+          ARK Flow modules face in different directions. Leaving it at 0 publishes every
+          rangefinder as downward facing, which is only correct with a single module.
+      type: int32
+      default: 0
+      min: 0
+      max: 125
     UAVCAN_ECU_MAXF:
       description:
         short: UAVCAN fuel tank maximum capacity

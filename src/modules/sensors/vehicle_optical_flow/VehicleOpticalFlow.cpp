@@ -101,6 +101,8 @@ void VehicleOpticalFlow::Run()
 
 	ParametersUpdate();
 
+	SelectFlowSensor();
+
 	UpdateDistanceSensor();
 
 	if (!_delta_angle_available) {
@@ -347,6 +349,36 @@ void VehicleOpticalFlow::Run()
 	ScheduleDelayed(10_ms);
 
 	perf_end(_cycle_perf);
+}
+
+void VehicleOpticalFlow::SelectFlowSensor()
+{
+	const uint32_t device_id = (uint32_t)_param_sens_flow_devid.get();
+
+	if ((device_id == 0) || _flow_sensor_selected) {
+		// keep the default first instance, which is all there is to choose from with a single sensor
+		return;
+	}
+
+	for (uint8_t i = 0; i < MAX_SENSOR_COUNT; i++) {
+		uORB::SubscriptionData<sensor_optical_flow_s> sensor_flow_sub{ORB_ID(sensor_optical_flow), i};
+
+		if (sensor_flow_sub.advertised()
+		    && (sensor_flow_sub.get().timestamp != 0)
+		    && (sensor_flow_sub.get().device_id == device_id)) {
+
+			if (_sensor_flow_sub.ChangeInstance(i) && _sensor_flow_sub.registerCallback()) {
+				PX4_INFO("selecting sensor_optical_flow:%" PRIu8 " %" PRIu32, i, device_id);
+				_flow_sensor_selected = true;
+				ClearAccumulatedData();
+
+			} else {
+				PX4_ERR("unable to register callback for sensor_optical_flow:%" PRIu8 " %" PRIu32, i, device_id);
+			}
+
+			return;
+		}
+	}
 }
 
 void VehicleOpticalFlow::UpdateDistanceSensor()

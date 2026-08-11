@@ -69,6 +69,7 @@ private:
 
 	float _range_min_m{0.0f};
 	float _range_max_m{0.0f};
+	int32_t _downward_node_id{0};
 
 	bool _channel_initialized[DEFAULT_MAX_CHANNELS] {};
 
